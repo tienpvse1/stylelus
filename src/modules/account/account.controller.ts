@@ -1,9 +1,19 @@
 import {
-  Body, Controller, Delete, Get, Patch, Post
+  Body,
+  Controller,
+  DefaultValuePipe,
+  Delete,
+  Get,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from 'src/common';
-import { FindOneOptions } from 'typeorm';
+import { HasRoles } from 'src/common/decorators/role/decorator';
+import { Roles } from 'src/constance';
+import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
@@ -23,11 +33,16 @@ export class AccountController {
   }
 
   /**
-   * find account and paginate
+   * find account and paginate(admin and system can perform this only)
    */
-  @Get()
-  findAll() {
-    return this.accountService.findMany({});
+  @Get('index')
+  @HasRoles(Roles.SYSTEM, Roles.ADMIN)
+  findAll(
+    @Body() query: FindManyOptions<Account>,
+    @Query('num', new DefaultValuePipe(1), ParseIntPipe) num = 1,
+    @Query('size', new DefaultValuePipe(10), ParseIntPipe) size = 10,
+  ) {
+    return this.accountService.paginate(query, num, size);
   }
 
   /**
