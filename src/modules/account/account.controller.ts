@@ -1,14 +1,8 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
+  Body, Controller, Delete, Get, Patch, Post
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { filter } from 'rxjs';
+import { User } from 'src/common';
 import { FindOneOptions } from 'typeorm';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './dto/create-account.dto';
@@ -39,31 +33,31 @@ export class AccountController {
   /**
    * get account by id
    */
-  @Get(':id')
+  @Get('custom')
   findOne(@Body('id') filter: FindOneOptions<Account>) {
     return this.accountService.findOne(filter);
   }
 
   /**
-   * update account by id
+   * update current account by id(authentication is require)
    */
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAccountDto: UpdateAccountDto) {
+  @Patch('')
+  update(@User('id') id: string, @Body() updateAccountDto: UpdateAccountDto) {
     return this.accountService.update(id, updateAccountDto);
   }
 
   /**
    * delete account(soft delete only)
    */
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete('')
+  remove(@User('id') id: string) {
     return this.accountService.delete(id);
   }
   /**
    * delete account(completely remove from database)
    */
-  @Delete('permanent/:id')
-  permanent(@Param('id') id: string) {
+  @Delete('permanent')
+  permanent(@User('id') id: string) {
     return this.accountService.permanentDelete(id);
   }
 }
