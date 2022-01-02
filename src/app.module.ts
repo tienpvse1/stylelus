@@ -15,5 +15,6 @@ import { GlobalModule } from './modules/global/global.module';
     AccountModule,
     GlobalModule,
   ],
+  providers: [GlobalModule],
 })
 export class AppModule {}
