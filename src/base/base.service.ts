@@ -25,6 +25,10 @@ export class CRUDService<
     return this.repository.findOneItem(filter);
   }
 
+  findOneWithoutError(filter: FindOneOptions<Entity>) {
+    return this.repository.findOne(filter);
+  }
+
   findMany(filter: FindManyOptions<Entity>) {
     return this.repository.findMany(filter);
   }
