@@ -1,3 +1,4 @@
+import { paginate } from 'nestjs-typeorm-paginate';
 import { DeepPartial, FindManyOptions, FindOneOptions } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { BaseRepository } from './base.repository';
@@ -31,6 +32,17 @@ export class CRUDService<
 
   findMany(filter: FindManyOptions<Entity>) {
     return this.repository.findMany(filter);
+  }
+
+  paginate(filter: FindManyOptions<Entity>, num: number, size: number) {
+    return paginate<Entity>(
+      this.repository,
+      {
+        page: num,
+        limit: size,
+      },
+      filter,
+    );
   }
 
   delete(id: string) {
