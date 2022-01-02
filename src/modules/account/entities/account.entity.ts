@@ -2,6 +2,7 @@ import { IsEmail, Length } from 'class-validator';
 import { BaseEntity } from 'src/base';
 import { BeforeInsert, BeforeUpdate, Column, Entity, Index } from 'typeorm';
 import { hashSync } from 'bcryptjs';
+import { Roles } from 'src/constance';
 @Entity()
 export class Account extends BaseEntity {
   @Column({ name: 'first_name' })
@@ -26,6 +27,9 @@ export class Account extends BaseEntity {
 
   @Column({ default: false, name: 'is_social_account' })
   isSocialAccount: boolean;
+
+  @Column({ type: 'enum', enum: Roles, default: Roles.CLIENT })
+  role: Roles;
 
   // hash the password before save or update it in database
   @BeforeInsert()
