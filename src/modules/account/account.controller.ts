@@ -10,8 +10,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { User } from 'src/common';
 import { HasRoles } from 'src/common/decorators/role/decorator';
+import { User } from 'src/common/decorators/user.decorator';
 import { Roles } from 'src/constance';
 import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { AccountService } from './account.service';

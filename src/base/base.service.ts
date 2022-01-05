@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { DeepPartial, FindManyOptions, FindOneOptions } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
@@ -55,5 +56,25 @@ export class CRUDService<
 
   update(id: string, item: QueryDeepPartialEntity<Entity>) {
     return this.repository.updateItem(id, item);
+  }
+
+  // create item with its relate entity
+  // ie: user add a book, so user is the relate entity of book
+  async addWithRelation<RelationEntity extends BaseEntity>(
+    item: DeepPartial<Entity>,
+    relationEntityId: string,
+    relateRepository: BaseRepository<RelationEntity>,
+    field: keyof RelationEntity,
+  ) {
+    try {
+      const createdItem = await this.create(item);
+      const relateItem = await relateRepository.findById(relationEntityId);
+      // @ts-ignore
+      relateItem[field] = createdItem;
+      const savedResult = await relateItem.save();
+      return savedResult;
+    } catch (error) {
+      throw new BadRequestException('unable to create this item');
+    }
   }
 }

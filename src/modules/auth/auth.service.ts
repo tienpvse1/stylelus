@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Account, AccountService } from '../account';
+import { AccountService } from '../account/account.service';
+import { Account } from '../account/entities/account.entity';
 import { IToken } from './interfaces/token.interface';
 import { IGoogleUser } from './interfaces/user.google';
 

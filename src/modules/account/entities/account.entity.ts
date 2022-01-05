@@ -1,8 +1,8 @@
 import { IsEmail, Length } from 'class-validator';
-import { BaseEntity } from 'src/base';
 import { BeforeInsert, BeforeUpdate, Column, Entity, Index } from 'typeorm';
 import { hashSync } from 'bcryptjs';
 import { Roles } from 'src/constance';
+import { BaseEntity } from 'src/base/entity.base';
 @Entity()
 export class Account extends BaseEntity {
   @Column({ name: 'first_name' })
