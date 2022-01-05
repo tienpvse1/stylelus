@@ -1,22 +1,21 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   Query,
 } from '@nestjs/common';
-import { PipelineItemService } from './pipeline-item.service';
-import { CreatePipelineItemDto } from './dto/create-pipeline-item.dto';
-import { UpdatePipelineItemDto } from './dto/update-pipeline-item.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AUTHORIZATION } from 'src/constance/swagger';
 import { getCustomRepository } from 'typeorm';
-import { PipelineColumnRepository } from '../pipeline-column/pipeline-column.repository';
 import { PipelineColumn } from '../pipeline-column/entities/pipeline-column.entity';
-import { PipelineRepository } from '../pipeline/pipeline.repository';
+import { PipelineColumnRepository } from '../pipeline-column/pipeline-column.repository';
+import { CreatePipelineItemDto } from './dto/create-pipeline-item.dto';
+import { UpdatePipelineItemDto } from './dto/update-pipeline-item.dto';
+import { PipelineItemService } from './pipeline-item.service';
 
 @Controller('pipeline-item')
 @ApiBearerAuth(AUTHORIZATION)
@@ -69,7 +68,6 @@ export class PipelineItemController {
 
     return this.pipelineItemService.updateParent<PipelineColumn>(
       id,
-      'pipelineColumn',
       oldId,
       newId,
       'pipelineItems',

@@ -90,7 +90,6 @@ export class CRUDService<
 
   async updateParent<Parent extends BaseEntity>(
     id: string,
-    field: keyof Entity,
     oldParentId: string,
     newParentId: string,
     parentField: keyof Parent,
