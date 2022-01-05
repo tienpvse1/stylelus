@@ -70,7 +70,7 @@ export class CRUDService<
       const relateItem = await relateRepository.findById(relationEntityId);
       const createdItem = await this.create(item);
       // @ts-ignore
-      relateItem[field] = [];
+      if (!relateItem[field]) relateItem[field] = [];
       // @ts-ignore
       relateItem[field].push(createdItem);
       const savedResult = await relateItem.save();
