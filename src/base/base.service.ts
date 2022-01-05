@@ -67,8 +67,8 @@ export class CRUDService<
     field: keyof RelationEntity,
   ) {
     try {
-      const createdItem = await this.create(item);
       const relateItem = await relateRepository.findById(relationEntityId);
+      const createdItem = await this.create(item);
       // @ts-ignore
       relateItem[field] = [];
       // @ts-ignore
