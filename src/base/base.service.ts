@@ -87,4 +87,40 @@ export class CRUDService<
       throw new BadRequestException('unable to create this item');
     }
   }
+
+  async updateParent<Parent extends BaseEntity>(
+    id: string,
+    field: keyof Entity,
+    oldParentId: string,
+    newParentId: string,
+    parentField: keyof Parent,
+    parentRepository: BaseRepository<Parent>,
+  ) {
+    const oldParentItem = await parentRepository.findOne({
+      where: {
+        id: oldParentId,
+      },
+      relations: [parentField.toString()],
+    });
+
+    const newParentItem = await parentRepository.findOne({
+      where: {
+        id: newParentId,
+      },
+      relations: [parentField.toString()],
+    });
+    //@ts-ignore
+    const item = oldParentItem[parentField].filter(
+      (entry: Entity) => entry.id === id,
+    )[0];
+
+    //@ts-ignore
+    if (!newParentItem[parentField]) newParentItem[parentField] = [];
+
+    //@ts-ignore
+    newParentItem[parentField].push(item);
+
+    oldParentItem.save();
+    return newParentItem.save();
+  }
 }

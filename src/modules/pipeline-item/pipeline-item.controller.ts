@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { PipelineItemService } from './pipeline-item.service';
 import { CreatePipelineItemDto } from './dto/create-pipeline-item.dto';
@@ -15,6 +16,7 @@ import { AUTHORIZATION } from 'src/constance/swagger';
 import { getCustomRepository } from 'typeorm';
 import { PipelineColumnRepository } from '../pipeline-column/pipeline-column.repository';
 import { PipelineColumn } from '../pipeline-column/entities/pipeline-column.entity';
+import { PipelineRepository } from '../pipeline/pipeline.repository';
 
 @Controller('pipeline-item')
 @ApiBearerAuth(AUTHORIZATION)
@@ -54,6 +56,25 @@ export class PipelineItemController {
     @Body() updatePipelineItemDto: UpdatePipelineItemDto,
   ) {
     return this.pipelineItemService.update(id, updatePipelineItemDto);
+  }
+  @Patch('parent/:id')
+  updateParent(
+    @Param('id') id: string,
+    @Query('oldId') oldId: string,
+    @Query('newId') newId: string,
+  ) {
+    const pipelineColumnRepository = getCustomRepository(
+      PipelineColumnRepository,
+    );
+
+    return this.pipelineItemService.updateParent<PipelineColumn>(
+      id,
+      'pipelineColumn',
+      oldId,
+      newId,
+      'pipelineItems',
+      pipelineColumnRepository,
+    );
   }
 
   @Delete(':id')
