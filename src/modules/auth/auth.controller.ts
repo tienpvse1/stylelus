@@ -1,4 +1,5 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { Request } from 'express';
 import { Public } from 'src/common/decorators/public.decorator';
 import { AuthService } from './auth.service';
@@ -15,6 +16,7 @@ export class AuthController {
   login() {}
 
   @Get('google/redirect')
+  @ApiBearerAuth('')
   @Public()
   @UseGuards(GoogleAuthGuard)
   redirect(@Req() request: Request) {

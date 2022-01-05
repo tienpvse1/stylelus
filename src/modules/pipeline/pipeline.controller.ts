@@ -12,9 +12,10 @@ import { CreatePipelineDto } from './dto/create-pipeline.dto';
 import { UpdatePipelineDto } from './dto/update-pipeline.dto';
 import { FindManyOptions } from 'typeorm';
 import { Pipeline } from './entities/pipeline.entity';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('pipeline')
+@ApiBearerAuth('Authorization')
 @ApiTags('pipeline')
 export class PipelineController {
   constructor(private readonly pipelineService: PipelineService) {}

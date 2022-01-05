@@ -6,18 +6,29 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
-import { CreatePipelineColumnDto } from './dto/create-pipeline-column.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { getCustomRepository } from 'typeorm';
+import { PipelineRepository } from '../pipeline/pipeline.repository';
 import { UpdatePipelineColumnDto } from './dto/update-pipeline-column.dto';
 import { PipelineColumnService } from './pipeline-column.service';
 
 @Controller('pipeline-column')
+@ApiTags('pipeline columns')
+@ApiBearerAuth('Authorization')
 export class PipelineColumnController {
   constructor(private readonly pipelineColumnService: PipelineColumnService) {}
 
   @Post()
-  create(@Body() createPipelineColumnDto: CreatePipelineColumnDto) {
-    return this.pipelineColumnService.create(createPipelineColumnDto);
+  create(@Query('name') name: string, @Query('pipelineId') pipelineId: string) {
+    const pipelineRepository = getCustomRepository(PipelineRepository);
+    return this.pipelineColumnService.addWithRelation(
+      { name },
+      pipelineId,
+      pipelineRepository,
+      'pipelineColumns',
+    );
   }
 
   @Get()
