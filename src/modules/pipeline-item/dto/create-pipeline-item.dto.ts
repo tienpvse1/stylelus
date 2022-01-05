@@ -1,1 +1,4 @@
-export class CreatePipelineItemDto {}
+export class CreatePipelineItemDto {
+  name: string;
+  pipelineColumnId: string;
+}

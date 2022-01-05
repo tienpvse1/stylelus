@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AUTHORIZATION } from 'src/constance/swagger';
 
 export const initializeSwagger = (
   app: INestApplication,
@@ -14,9 +15,9 @@ export const initializeSwagger = (
       {
         type: 'http',
         in: 'header',
-        name: 'Authorization',
+        name: AUTHORIZATION,
       },
-      'Authorization',
+      AUTHORIZATION,
     )
     .build();
   const document = SwaggerModule.createDocument(app, config);

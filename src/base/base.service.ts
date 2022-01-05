@@ -31,7 +31,7 @@ export class CRUDService<
     return this.repository.findOne(filter);
   }
 
-  findMany(filter: FindManyOptions<Entity>) {
+  findMany(filter: FindManyOptions<Entity> = {}) {
     return this.repository.findMany(filter);
   }
 
@@ -70,7 +70,9 @@ export class CRUDService<
       const createdItem = await this.create(item);
       const relateItem = await relateRepository.findById(relationEntityId);
       // @ts-ignore
-      relateItem[field] = createdItem;
+      relateItem[field] = [];
+      // @ts-ignore
+      relateItem[field].push(createdItem);
       const savedResult = await relateItem.save();
       return savedResult;
     } catch (error) {
