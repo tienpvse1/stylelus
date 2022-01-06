@@ -7,7 +7,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { Roles, ROLES_KEY } from 'src/constance';
-import { ITokenPayload } from '..';
+import { ITokenPayload } from '../interfaces/token.interface';
 
 @Injectable()
 export class RoleGuard implements CanActivate {
@@ -19,7 +19,6 @@ export class RoleGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
-    console.log(requireRoles);
     if (!requireRoles) {
       return true;
     }

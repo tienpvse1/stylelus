@@ -1,8 +1,16 @@
-import { IsEmail, Length } from 'class-validator';
-import { BaseEntity } from 'src/base';
-import { BeforeInsert, BeforeUpdate, Column, Entity, Index } from 'typeorm';
 import { hashSync } from 'bcryptjs';
+import { IsEmail, Length } from 'class-validator';
+import { BaseEntity } from 'src/base/entity.base';
 import { Roles } from 'src/constance';
+import { Pipeline } from 'src/modules/pipeline/entities/pipeline.entity';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  Index,
+  OneToOne,
+} from 'typeorm';
 @Entity()
 export class Account extends BaseEntity {
   @Column({ name: 'first_name' })
@@ -40,4 +48,7 @@ export class Account extends BaseEntity {
       this.password = hashSync(this.password, 10);
     }
   }
+
+  @OneToOne(() => Pipeline, (pipeline) => pipeline.account, { eager: true })
+  pipeline: Pipeline;
 }

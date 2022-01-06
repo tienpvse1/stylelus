@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { AccountModule } from '../account';
-import { ConfigModule } from '../config';
+import { AccountModule } from '../account/account.module';
+import { ConfigModule } from '../config/config.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { GoogleStrategy } from './strategies/google.strategy';

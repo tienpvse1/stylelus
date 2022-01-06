@@ -9,10 +9,11 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { User } from 'src/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { HasRoles } from 'src/common/decorators/role/decorator';
+import { User } from 'src/common/decorators/user.decorator';
 import { Roles } from 'src/constance';
+import { AUTHORIZATION } from 'src/constance/swagger';
 import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './dto/create-account.dto';
@@ -21,6 +22,7 @@ import { Account } from './entities/account.entity';
 
 @Controller('account')
 @ApiTags('account')
+@ApiBearerAuth(AUTHORIZATION)
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
