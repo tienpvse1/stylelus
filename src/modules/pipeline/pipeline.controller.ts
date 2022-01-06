@@ -1,22 +1,22 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { PipelineService } from './pipeline.service';
-import { CreatePipelineDto } from './dto/create-pipeline.dto';
-import { UpdatePipelineDto } from './dto/update-pipeline.dto';
-import { FindManyOptions, getCustomRepository } from 'typeorm';
-import { Pipeline } from './entities/pipeline.entity';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { User } from 'src/common/decorators/user.decorator';
 import { AUTHORIZATION } from 'src/constance/swagger';
+import { FindManyOptions, getCustomRepository } from 'typeorm';
 import { AccountRepository } from '../account/account.repository';
 import { Account } from '../account/entities/account.entity';
-import { User } from 'src/common/decorators/user.decorator';
+import { CreatePipelineDto } from './dto/create-pipeline.dto';
+import { UpdatePipelineDto } from './dto/update-pipeline.dto';
+import { Pipeline } from './entities/pipeline.entity';
+import { PipelineService } from './pipeline.service';
 
 @Controller('pipeline')
 @ApiBearerAuth(AUTHORIZATION)
@@ -25,9 +25,12 @@ export class PipelineController {
   constructor(private readonly pipelineService: PipelineService) {}
 
   @Post()
-  create(@Body() { name }: CreatePipelineDto, @User('id') accountId: string) {
+  async create(
+    @Body() { name }: CreatePipelineDto,
+    @User('id') accountId: string,
+  ) {
     const accountRepository = getCustomRepository(AccountRepository);
-    return this.pipelineService.addWithRelation<Account>(
+    return this.pipelineService.addWithOneToOneRelation<Account>(
       { name },
       accountId,
       accountRepository,

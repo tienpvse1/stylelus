@@ -88,6 +88,34 @@ export class CRUDService<
     }
   }
 
+  async addWithOneToOneRelation<RelationEntity extends BaseEntity>(
+    item: DeepPartial<Entity>,
+    relationEntityId: string,
+    relateRepository: BaseRepository<RelationEntity>,
+    field: keyof RelationEntity,
+  ) {
+    try {
+      const relateItem = await relateRepository.findOneItem({
+        where: {
+          id: relationEntityId,
+        },
+        relations: [field.toString()],
+      });
+      console.log(relateItem);
+      const createdItem = await this.create(item);
+      // @ts-ignore
+      if (!relateItem[field]) relateItem[field] = {};
+      // @ts-ignore
+      relateItem[field] = createdItem;
+      const savedResult = await relateItem.save();
+      return savedResult;
+    } catch (error) {
+      console.log(error);
+
+      throw new BadRequestException('unable to create this item');
+    }
+  }
+
   async updateParent<Parent extends BaseEntity>(
     id: string,
     oldParentId: string,

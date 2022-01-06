@@ -19,6 +19,10 @@ export class PipelineColumn extends BaseEntity {
   @JoinColumn({ name: 'pipeline_id' })
   pipeline: Pipeline;
 
-  @OneToMany(() => PipelineItem, (pipelineItem) => pipelineItem.pipelineColumn)
+  @OneToMany(
+    () => PipelineItem,
+    (pipelineItem) => pipelineItem.pipelineColumn,
+    { eager: true },
+  )
   pipelineItems: PipelineItem[];
 }
