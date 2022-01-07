@@ -2,7 +2,7 @@ import { hashSync } from 'bcryptjs';
 import { IsEmail, Length } from 'class-validator';
 import { BaseEntity } from 'src/base/entity.base';
 import { Roles } from 'src/constance';
-import { Pipeline } from 'src/modules/pipeline/entities/pipeline.entity';
+import { Pipeline } from 'src/modules/pipeline-module/pipeline/entities/pipeline.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
