@@ -1,11 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ContactService } from './contact.service';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
 
 @Controller('contact')
+@ApiTags('contact')
 export class ContactController {
-  constructor(private readonly contactService: ContactService) {}
+  constructor(private contactService: ContactService) {}
 
   @Post()
   create(@Body() createContactDto: CreateContactDto) {
@@ -14,21 +24,21 @@ export class ContactController {
 
   @Get()
   findAll() {
-    return this.contactService.findAll();
+    return this.contactService.findMany();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.contactService.findOne(+id);
+    return this.contactService.findById(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateContactDto: UpdateContactDto) {
-    return this.contactService.update(+id, updateContactDto);
+    return this.contactService.update(id, updateContactDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.contactService.remove(+id);
+    return this.contactService.delete(id);
   }
 }

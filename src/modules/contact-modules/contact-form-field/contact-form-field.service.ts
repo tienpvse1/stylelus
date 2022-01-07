@@ -1,26 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { CreateContactFormFieldDto } from './dto/create-contact-form-field.dto';
-import { UpdateContactFormFieldDto } from './dto/update-contact-form-field.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CRUDService } from 'src/base/base.service';
+import { ContactFormFieldRepository } from './contact-form-field.repository';
+import { ContactFormField } from './entities/contact-form-field.entity';
 
 @Injectable()
-export class ContactFormFieldService {
-  create(createContactFormFieldDto: CreateContactFormFieldDto) {
-    return 'This action adds a new contactFormField';
-  }
-
-  findAll() {
-    return `This action returns all contactFormField`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} contactFormField`;
-  }
-
-  update(id: number, updateContactFormFieldDto: UpdateContactFormFieldDto) {
-    return `This action updates a #${id} contactFormField`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} contactFormField`;
+export class ContactFormFieldService extends CRUDService<
+  ContactFormField,
+  ContactFormFieldRepository
+> {
+  constructor(
+    @InjectRepository(ContactFormFieldRepository)
+    repository: ContactFormFieldRepository,
+  ) {
+    super(repository);
   }
 }
