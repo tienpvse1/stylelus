@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { compareSync } from 'bcryptjs';
@@ -69,7 +65,10 @@ export class AuthService {
     return;
   }
 
-  async loginByEmailPassword({ email, password }: LoginRequestDto) {
+  async loginByEmailPassword(
+    { email, password }: LoginRequestDto,
+    response: Response,
+  ) {
     try {
       const account = await this.accountService.findOne({
         where: { email },
@@ -91,10 +90,18 @@ export class AuthService {
       const checkPasswordResult = compareSync(password, account.password);
 
       if (!checkPasswordResult)
-        throw new UnauthorizedException('check your password');
-      return this.generateJWTToken(account);
+        throw new UnauthorizedException('Check your password');
+      response.status(HttpStatus.OK).json({
+        data: this.generateJWTToken(account),
+        message: 'successfully',
+        statusCode: HttpStatus.OK,
+      });
     } catch (error) {
-      throw new BadRequestException(error.message || 'unauthorized');
+      response.status(HttpStatus.UNAUTHORIZED).json({
+        message: error.message,
+        statusCode: HttpStatus.UNAUTHORIZED,
+        timestamp: new Date().toISOString(),
+      });
     }
   }
 }

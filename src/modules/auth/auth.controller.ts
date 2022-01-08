@@ -5,10 +5,11 @@ import {
   Post,
   Req,
   Res,
+  Response,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Request, Response } from 'express';
+import { Request, Response as ExpressResponse } from 'express';
 import { Public } from 'src/common/decorators/public.decorator';
 import { AuthService } from './auth.service';
 import { GoogleAuthGuard } from './guard/google.guard';
@@ -28,15 +29,18 @@ export class AuthController {
 
   @Post()
   @Public()
-  checkLoginByEmailPassword(@Body() loginRequest: LoginRequestDto) {
-    this.authService.loginByEmailPassword(loginRequest);
+  checkLoginByEmailPassword(
+    @Body() loginRequest: LoginRequestDto,
+    @Res() response: ExpressResponse,
+  ) {
+    this.authService.loginByEmailPassword(loginRequest, response);
   }
 
   @Get('google/redirect')
   @ApiBearerAuth('')
   @Public()
   @UseGuards(GoogleAuthGuard)
-  redirect(@Req() request: Request, @Res() response: Response) {
+  redirect(@Req() request: Request, @Response() response: ExpressResponse) {
     return this.authService.findOrCreateAccount(
       request.user as IGoogleUser,
       response,
