@@ -70,7 +70,10 @@ export class BaseRepository<T extends BaseEntity> extends Repository<T> {
 
   async updateItem(id: string, item: QueryDeepPartialEntity<T>) {
     try {
-      const updateResult = await this.update(id, item);
+      const foundItem = await this.findById(id);
+      if (!foundItem) throw new NotFoundException('item not found');
+      Object.assign(foundItem, item);
+      const updateResult = await foundItem.save();
       return updateResult;
     } catch (error) {
       throw new NotFoundException(`cannot update ${this.metadata.name}`);

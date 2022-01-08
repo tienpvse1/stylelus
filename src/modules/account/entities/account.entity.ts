@@ -1,8 +1,9 @@
 import { hashSync } from 'bcryptjs';
+import { Exclude } from 'class-transformer';
 import { IsEmail, Length } from 'class-validator';
 import { BaseEntity } from 'src/base/entity.base';
 import { Roles } from 'src/constance';
-import { Pipeline } from 'src/modules/pipeline/entities/pipeline.entity';
+import { Pipeline } from 'src/modules/pipeline-module/pipeline/entities/pipeline.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -13,10 +14,10 @@ import {
 } from 'typeorm';
 @Entity()
 export class Account extends BaseEntity {
-  @Column({ name: 'first_name' })
+  @Column({ name: 'first_name', nullable: true })
   firstName: string;
 
-  @Column({ name: 'last_name' })
+  @Column({ name: 'last_name', nullable: true })
   lastName: string;
 
   @Column({ nullable: true })
@@ -29,8 +30,9 @@ export class Account extends BaseEntity {
   @IsEmail()
   email: string;
 
-  @Column({ select: false, nullable: true })
+  @Column({ nullable: true })
   @Length(10)
+  @Exclude({ toPlainOnly: true })
   password: string;
 
   @Column({ default: false, name: 'is_social_account' })
@@ -41,9 +43,14 @@ export class Account extends BaseEntity {
 
   // hash the password before save or update it in database
   @BeforeInsert()
-  @BeforeUpdate()
   hashPassword() {
     // only hash if there's password
+    if (this.password) {
+      this.password = hashSync(this.password, 10);
+    }
+  }
+  @BeforeUpdate()
+  hashPasswordBeforeUpdate() {
     if (this.password) {
       this.password = hashSync(this.password, 10);
     }
