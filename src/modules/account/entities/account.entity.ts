@@ -1,4 +1,5 @@
 import { hashSync } from 'bcryptjs';
+import { Exclude } from 'class-transformer';
 import { IsEmail, Length } from 'class-validator';
 import { BaseEntity } from 'src/base/entity.base';
 import { Roles } from 'src/constance';
@@ -29,8 +30,9 @@ export class Account extends BaseEntity {
   @IsEmail()
   email: string;
 
-  @Column({ select: false, nullable: true })
+  @Column({ nullable: true })
   @Length(10)
+  @Exclude({ toPlainOnly: true })
   password: string;
 
   @Column({ default: false, name: 'is_social_account' })

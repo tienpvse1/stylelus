@@ -77,7 +77,7 @@ export class AuthService {
         ],
       });
 
-      if (!account.password || account.isSocialAccount)
+      if (!account.password)
         throw new UnauthorizedException(
           'account already registered with google login method',
         );
