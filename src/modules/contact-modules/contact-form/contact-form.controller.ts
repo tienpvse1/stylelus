@@ -1,24 +1,25 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AUTHORIZATION } from 'src/constance/swagger';
 import { ContactFormService } from './contact-form.service';
-import { CreateContactFormDto } from './dto/create-contact-form.dto';
 import { UpdateContactFormDto } from './dto/update-contact-form.dto';
 @Controller('contact-form')
 @ApiTags('contact form')
+@ApiBearerAuth(AUTHORIZATION)
 export class ContactFormController {
   constructor(private readonly contactFormService: ContactFormService) {}
 
-  @Post()
-  create(@Body() createContactFormDto: CreateContactFormDto) {
-    return this.contactFormService.create(createContactFormDto);
+  @Post(':contactId')
+  create(@Param('contactId') contactId: string) {
+    return this.contactFormService.createForm(contactId);
   }
 
   @Get()
@@ -29,6 +30,14 @@ export class ContactFormController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.contactFormService.findById(id);
+  }
+
+  @Get(':id/fields')
+  findOneWithFields(@Param('id') id: string) {
+    return this.contactFormService.findOne({
+      where: { id },
+      relations: ['contactFormFields'],
+    });
   }
 
   @Patch(':id')
