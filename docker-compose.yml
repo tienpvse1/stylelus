@@ -44,4 +44,4 @@ services:
       #TODO : redirect this url by server's ip address in future
       GOOGLE_SUCCESS_REDIRECT: http://159.65.142.98:8080/api/v1/auth/google/redirect
     ports:
-      - 8080:8080
+      - 80:8080
