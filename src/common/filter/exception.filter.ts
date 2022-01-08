@@ -14,12 +14,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
 
     const status = exception.getStatus();
-
     response.status(status).json({
       statusCode: status,
       message: exception.message,
       timestamp: new Date().toISOString(),
       path: request.url,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      info: exception.getResponse().message,
     });
   }
 }

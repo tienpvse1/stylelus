@@ -13,10 +13,10 @@ import {
 } from 'typeorm';
 @Entity()
 export class Account extends BaseEntity {
-  @Column({ name: 'first_name' })
+  @Column({ name: 'first_name', nullable: true })
   firstName: string;
 
-  @Column({ name: 'last_name' })
+  @Column({ name: 'last_name', nullable: true })
   lastName: string;
 
   @Column({ nullable: true })
@@ -41,9 +41,14 @@ export class Account extends BaseEntity {
 
   // hash the password before save or update it in database
   @BeforeInsert()
-  @BeforeUpdate()
   hashPassword() {
     // only hash if there's password
+    if (this.password) {
+      this.password = hashSync(this.password, 10);
+    }
+  }
+  @BeforeUpdate()
+  hashPasswordBeforeUpdate() {
     if (this.password) {
       this.password = hashSync(this.password, 10);
     }

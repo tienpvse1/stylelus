@@ -1,7 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { compareSync } from 'bcryptjs';
 import { AccountService } from '../account/account.service';
 import { Account } from '../account/entities/account.entity';
+import { LoginRequestDto } from './interfaces/login-request.dto';
 import { IToken } from './interfaces/token.interface';
 import { IGoogleUser } from './interfaces/user.google';
 
@@ -54,5 +60,34 @@ export class AuthService {
     }
     // else grab the account in database
     else return this.generateJWTToken(account);
+  }
+
+  async loginByEmailPassword({ email, password }: LoginRequestDto) {
+    try {
+      const account = await this.accountService.findOne({
+        where: { email },
+        select: [
+          'email',
+          'password',
+          'id',
+          'role',
+          'firstName',
+          'lastName',
+          'isSocialAccount',
+        ],
+      });
+
+      if (!account.password || account.isSocialAccount)
+        throw new UnauthorizedException(
+          'account already registered with google login method',
+        );
+      const checkPasswordResult = compareSync(password, account.password);
+
+      if (!checkPasswordResult)
+        throw new UnauthorizedException('check your password');
+      return this.generateJWTToken(account);
+    } catch (error) {
+      throw new BadRequestException(error.message || 'unauthorized');
+    }
   }
 }
