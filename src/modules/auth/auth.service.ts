@@ -3,8 +3,10 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { compareSync } from 'bcryptjs';
+import { Response } from 'express';
 import { AccountService } from '../account/account.service';
 import { Account } from '../account/entities/account.entity';
 import { LoginRequestDto } from './interfaces/login-request.dto';
@@ -16,6 +18,7 @@ export class AuthService {
   constructor(
     private accountService: AccountService,
     private jwtService: JwtService,
+    private config: ConfigService,
   ) {}
 
   // binding isSocialAccount field with true value to mark this account use social login method
@@ -42,7 +45,7 @@ export class AuthService {
 
   // create account if not exist in database
   // based on email
-  async findOrCreateAccount(user: IGoogleUser) {
+  async findOrCreateAccount(user: IGoogleUser, response: Response) {
     const { accessToken, ...rest } = user;
     const account = await this.accountService.findOneWithoutError({
       where: {
@@ -56,10 +59,12 @@ export class AuthService {
     // if account haven't exist in database, save it
     if (!account) {
       const newAccount = await this.accountService.create(rest);
-      return this.generateJWTToken(newAccount);
+      response.cookie('token', this.generateJWTToken(newAccount));
+      response.redirect(this.config.get<string>('google.frontendUrl'));
     }
     // else grab the account in database
-    else return this.generateJWTToken(account);
+    response.cookie('token', this.generateJWTToken(account));
+    response.redirect(this.config.get<string>('google.frontendUrl'));
   }
 
   async loginByEmailPassword({ email, password }: LoginRequestDto) {

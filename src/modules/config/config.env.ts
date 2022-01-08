@@ -15,5 +15,6 @@ export const appConfig = () => ({
     id: process.env.GOOGLE_CLIENT_ID || '',
     secret: process.env.GOOGLE_SECRET_KEY || '',
     redirectURL: process.env.GOOGLE_SUCCESS_REDIRECT || '',
+    frontendUrl: process.env.FE_REDIRECT_URL || '',
   },
 });

@@ -43,5 +43,6 @@ services:
       GOOGLE_SECRET_KEY: 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
       #TODO : redirect this url by server's ip address in future
       GOOGLE_SUCCESS_REDIRECT: http://kienvt.tech/api/v1/auth/google/redirect
+      FE_REDIRECT_URL: http://tienpvse.xyz/
     ports:
       - 80:8080
