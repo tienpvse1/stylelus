@@ -1,6 +1,6 @@
 import { BaseEntity } from 'src/base/entity.base';
-import { PipelineColumn } from 'src/modules/pipeline-column/entities/pipeline-column.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { PipelineColumn } from '../../pipeline-column/entities/pipeline-column.entity';
 
 @Entity({ name: 'pipeline_item' })
 export class PipelineItem extends BaseEntity {

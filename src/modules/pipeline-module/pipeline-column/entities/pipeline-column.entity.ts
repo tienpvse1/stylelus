@@ -1,14 +1,7 @@
 import { BaseEntity } from 'src/base/entity.base';
-import { PipelineItem } from 'src/modules/pipeline-item/entities/pipeline-item.entity';
-import { Pipeline } from 'src/modules/pipeline/entities/pipeline.entity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToOne,
-  OneToMany,
-} from 'typeorm';
+import { Pipeline } from 'src/modules/pipeline-module/pipeline/entities/pipeline.entity';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { PipelineItem } from '../../pipeline-item/entities/pipeline-item.entity';
 
 @Entity({ name: 'pipeline-column' })
 export class PipelineColumn extends BaseEntity {

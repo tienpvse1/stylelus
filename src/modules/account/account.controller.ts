@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   DefaultValuePipe,
   Delete,
@@ -8,8 +9,10 @@ import {
   Patch,
   Post,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Public } from 'src/common/decorators/public.decorator';
 import { HasRoles } from 'src/common/decorators/role/decorator';
 import { User } from 'src/common/decorators/user.decorator';
 import { Roles } from 'src/constance';
@@ -22,6 +25,7 @@ import { Account } from './entities/account.entity';
 
 @Controller('account')
 @ApiTags('account')
+@UseInterceptors(ClassSerializerInterceptor)
 @ApiBearerAuth(AUTHORIZATION)
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
@@ -30,6 +34,7 @@ export class AccountController {
    * create an account
    */
   @Post()
+  @Public()
   create(@Body() createAccountDto: CreateAccountDto) {
     return this.accountService.create(createAccountDto);
   }
