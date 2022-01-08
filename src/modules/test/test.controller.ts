@@ -8,4 +8,9 @@ export class TestController {
   getSomeThing() {
     return 'if you see this, you must have been authenticated';
   }
+  @Get(':id')
+  @UseGuards(GoogleAuthGuard)
+  getSomeThing2() {
+    return 'if you see this, you must have been authenticated2';
+  }
 }
