@@ -61,10 +61,12 @@ export class AuthService {
       const newAccount = await this.accountService.create(rest);
       response.cookie('token', this.generateJWTToken(newAccount));
       response.redirect(this.config.get<string>('google.frontendUrl'));
+      return;
     }
     // else grab the account in database
     response.cookie('token', this.generateJWTToken(account));
     response.redirect(this.config.get<string>('google.frontendUrl'));
+    return;
   }
 
   async loginByEmailPassword({ email, password }: LoginRequestDto) {
