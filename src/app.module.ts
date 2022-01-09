@@ -31,7 +31,7 @@ import { join } from 'path';
     ContactFormFieldModule,
     FileModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'upload'),
+      rootPath: join(__dirname, '..', 'files'),
     }),
   ],
   providers: [GlobalModule],
