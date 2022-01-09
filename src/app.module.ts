@@ -11,6 +11,9 @@ import { ContactFormModule } from './modules/contact-modules/contact-form/contac
 import { ContactFormFieldModule } from './modules/contact-modules/contact-form-field/contact-form-field.module';
 import { PipelineItemModule } from './modules/pipeline-module/pipeline-item/pipeline-item.module';
 import { PipelineColumnModule } from './modules/pipeline-module/pipeline-column/pipeline-column.module';
+import { FileModule } from './modules/file/file.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -26,6 +29,10 @@ import { PipelineColumnModule } from './modules/pipeline-module/pipeline-column/
     ContactModule,
     ContactFormModule,
     ContactFormFieldModule,
+    FileModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'upload'),
+    }),
   ],
   providers: [GlobalModule],
 })
