@@ -1,6 +1,11 @@
 import { BadRequestException } from '@nestjs/common';
 import { paginate } from 'nestjs-typeorm-paginate';
-import { DeepPartial, FindManyOptions, FindOneOptions } from 'typeorm';
+import {
+  DeepPartial,
+  FindManyOptions,
+  FindOneOptions,
+  getConnection,
+} from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { BaseRepository } from './base.repository';
 import { BaseEntity } from './entity.base';
@@ -94,25 +99,40 @@ export class CRUDService<
     relateRepository: BaseRepository<RelationEntity>,
     field: keyof RelationEntity,
   ) {
+    const connection = getConnection();
+    const queryRunner = connection.createQueryRunner();
+
+    // establish real database connection using our new query runner
+    await queryRunner.connect();
+
+    // lets now open a new transaction:
+    await queryRunner.startTransaction();
+
     try {
+      // execute some operations on this transaction:
       const relateItem = await relateRepository.findOneItem({
         where: {
           id: relationEntityId,
         },
         relations: [field.toString()],
       });
-      console.log(relateItem);
-      const createdItem = await this.create(item);
+      const newItem = this.repository.create(item);
+      const createdItem = await queryRunner.manager.save(newItem);
       // @ts-ignore
       if (!relateItem[field]) relateItem[field] = {};
       // @ts-ignore
       relateItem[field] = createdItem;
-      const savedResult = await relateItem.save();
+      const savedResult = await queryRunner.manager.save(relateItem);
+      await queryRunner.commitTransaction();
       return savedResult;
-    } catch (error) {
-      console.log(error);
-
-      throw new BadRequestException('unable to create this item');
+      // commit transaction now:
+    } catch (err) {
+      // since we have errors let's rollback changes we made
+      await queryRunner.rollbackTransaction();
+      throw new BadRequestException('create failure');
+    } finally {
+      // you need to release query runner which is manually created:
+      await queryRunner.release();
     }
   }
 
