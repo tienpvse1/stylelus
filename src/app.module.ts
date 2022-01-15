@@ -14,6 +14,7 @@ import { PipelineColumnModule } from './modules/pipeline-module/pipeline-column/
 import { FileModule } from './modules/file/file.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { MailerModule } from './modules/mailer/mailer.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { join } from 'path';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'files'),
     }),
+    MailerModule,
   ],
   providers: [GlobalModule],
 })
