@@ -24,13 +24,13 @@ export class MailerController {
   create(@Body() createMailerDto: CreateMailerDto) {
     return this.mailerService.create(createMailerDto);
   }
-  @Post(':send')
+  @Post('send')
   @Public()
-  async sendEmail(@Body() value: { value: string; to: string }) {
+  async sendEmail(@Body() email: CreateMailerDto) {
     this.rootService.sendMail({
-      to: value.to,
-      subject: 'Testing Nest Mailermodule with template ✔',
-      html: value.value,
+      to: email.to,
+      subject: email.subject,
+      html: email.value,
     });
     return 'please check your mail';
   }
