@@ -44,5 +44,7 @@ services:
       #TODO : redirect this url by server's ip address in future
       GOOGLE_SUCCESS_REDIRECT: http://kienvt.tech/api/v1/auth/google/redirect
       FE_REDIRECT_URL: http://tienpvse.xyz/
+      GOOGLE_USERNAME: good66612@gmail.com
+      GOOGLE_PASSWORD: Username666
     ports:
       - 80:8080
