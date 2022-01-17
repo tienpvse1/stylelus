@@ -2,21 +2,23 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [master]
+    branches: [ master ]
   pull_request:
-    branches: [master]
+    branches: [ master ]
 
 jobs:
+
   build:
+
     runs-on: self-hosted
 
     steps:
-      - uses: actions/checkout@v2
-      - name: stop the server
-        run:  echo "stopping the server"
-      - name: install package
-        run: npm install
-      - name: building the optimistic build
-        run: npm run build
-      - name: start the server
-        run: pm2 start dist/main.js
+    - uses: actions/checkout@v2
+    - name: stop the server
+      run: docker-compose down
+    - name: remove the existing image
+      run: docker rmi -f authapis
+    - name: pull the new code
+      run: git pull
+    - name: start the server
+      run: docker-compose up -d
