@@ -14,7 +14,9 @@ jobs:
         run: echo "stopping the server"
       - name: collect necessary library
         run: npm install
+      - name: install pm2
+        run: npm i pm2
       - name: prepare an optimistic production build
         run: npm run build
       - name: run the server
-        run: pm2 reload all
+        run: pm2 dist/main.js
