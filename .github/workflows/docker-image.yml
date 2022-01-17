@@ -9,13 +9,14 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Deploy using ssh
       - uses: actions/checkout@v2
-      - with:
-          port: 22
-          script: |
-            cd actions-runner/_work/crm/crm
-            git pull origin master
-            npm install 
-            npm run build
-            pm2 restart all
+      - name: navigate to root
+        run: cd actions-runner/_work/crm/crm
+      - name: Update code
+        run: git pull
+      - name: collect necessary library
+        run: npm install
+      - name: prepare an optimistic production build
+        run: npm run build
+      - name: run the server
+        run: pm2 start main
