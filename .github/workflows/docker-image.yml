@@ -12,10 +12,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: stop the server
         run: echo "stopping the server"
-      - name: stop the previous production
-        run: pm2 stop main
-      - name: remove the previous production
-        run: pm2 delete main
       - name: collect necessary library
         run: npm install
       - name: prepare an optimistic production build
