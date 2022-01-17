@@ -8,15 +8,14 @@ jobs:
   build:
     runs-on: self-hosted
 
-    steps:
-      - uses: actions/checkout@v2
-      - name: stop the server
-        run: echo "stopping the server"
-      - name: collect necessary library
-        run: npm install
-      - name: install pm2
-        run: npm i pm2
-      - name: prepare an optimistic production build
-        run: npm run build
-      - name: run the server
-        run: pm2 start dist/main.js
+     steps:
+    - name: Deploy using ssh
+      with:
+        port: 22
+        script: |
+          cd ~/home/danielwetan/apps/node1
+          git pull origin master
+          git status
+          npm install
+          npm run build
+          pm2 restart all
