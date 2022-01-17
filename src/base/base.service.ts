@@ -78,7 +78,6 @@ export class CRUDService<
         },
         relations: [field.toString()],
       });
-      console.log(relateItem);
       const createdItem = await this.create(item);
       // @ts-ignore
       if (!relateItem[field]) relateItem[field] = [];
@@ -87,8 +86,6 @@ export class CRUDService<
       const savedResult = await relateItem.save();
       return savedResult;
     } catch (error) {
-      console.log(error);
-
       throw new BadRequestException('unable to create this item');
     }
   }

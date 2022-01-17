@@ -47,6 +47,7 @@ export class EmailTemplateController {
     @Param('id') id: string,
     @Body() updateEmailTemplateDto: UpdateEmailTemplateDto,
   ) {
+    console.log('get here');
     return this.emailTemplateService.update(id, updateEmailTemplateDto);
   }
 

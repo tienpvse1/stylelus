@@ -11,10 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: stop the server
-        run:  echo "stopping the server"
-      - name: install package
+        run: echo "stopping the server"
+      - name: remove the previous run
+        run: echo "removing"
+      - name: collect necessary library
         run: npm install
-      - name: building the optimistic build
+      - name: prepare an optimistic production build
         run: npm run build
-      - name: start the serve
+      - name: run the server
         run: pm2 start dist/main.js
