@@ -11,8 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: stop the server
-        run: docker-compose down
-      - name: remove the existing image
-        run: docker rmi -f crm
-      - name: start the server
-        run: docker-compose up -d
+        run: echo "stopping the server"
+      - name: remove the previous run
+        run: echo "removing"
+      - name: collect necessary library
+        run: npm install
+      - name: prepare an optimistic production build
+        run: npm run build
+      - name: run the server
+        run: pm2 start dist/main.js
