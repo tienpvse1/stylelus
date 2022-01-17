@@ -25,6 +25,8 @@ services:
       - PMA_PORT=3307
   crm:
     image: crm
+    volumes:
+      - /files/:/usr/src/app/files
     build:
       context: .
       dockerfile: ./Dockerfile
