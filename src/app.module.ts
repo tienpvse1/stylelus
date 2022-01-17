@@ -5,7 +5,6 @@ import { ConfigModule } from './modules/config/config.module';
 import { DatabaseModule } from './modules/database/database.module';
 import { GlobalModule } from './modules/global/global.module';
 import { PipelineModule } from './modules/pipeline-module/pipeline/pipeline.module';
-import { TestModule } from './modules/test/test.module';
 import { ContactModule } from './modules/contact-modules/contact/contact.module';
 import { ContactFormModule } from './modules/contact-modules/contact-form/contact-form.module';
 import { ContactFormFieldModule } from './modules/contact-modules/contact-form-field/contact-form-field.module';
@@ -22,7 +21,6 @@ import { EmailTemplateModule } from './modules/email-template/email-template.mod
     ConfigModule,
     DatabaseModule,
     AuthModule,
-    TestModule,
     AccountModule,
     GlobalModule,
     PipelineModule,
