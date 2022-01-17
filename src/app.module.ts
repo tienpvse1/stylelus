@@ -15,6 +15,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { MailerModule } from './modules/mailer/mailer.module';
 import { EmailTemplateModule } from './modules/email-template/email-template.module';
+import { MessageModule } from './modules/message/message.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { EmailTemplateModule } from './modules/email-template/email-template.mod
     }),
     MailerModule,
     EmailTemplateModule,
+    MessageModule,
   ],
   providers: [GlobalModule],
 })

@@ -17,4 +17,4 @@ jobs:
       - name: prepare an optimistic production build
         run: npm run build
       - name: run the server
-        run: pm2 start dist/main.js
+        run: pm2 start main
