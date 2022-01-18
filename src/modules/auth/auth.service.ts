@@ -91,8 +91,16 @@ export class AuthService {
 
       if (!checkPasswordResult)
         throw new UnauthorizedException('Check your password');
+
       response.status(HttpStatus.OK).json({
-        data: this.generateJWTToken(account),
+        data: {
+          token: this.generateJWTToken(account),
+          publicData: {
+            role: account.role,
+            email: account.email,
+            id: account.id,
+          },
+        },
         message: 'successfully',
         statusCode: HttpStatus.OK,
       });
