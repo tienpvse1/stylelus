@@ -12,7 +12,6 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/common/decorators/public.decorator';
 import { HasRoles } from 'src/common/decorators/role/decorator';
 import { User } from 'src/common/decorators/user.decorator';
 import { Roles } from 'src/constance';
@@ -34,7 +33,7 @@ export class AccountController {
    * create an account
    */
   @Post()
-  @Public()
+  @HasRoles(Roles.ADMIN)
   create(@Body() createAccountDto: CreateAccountDto) {
     return this.accountService.create(createAccountDto);
   }
