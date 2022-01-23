@@ -16,6 +16,7 @@ import { join } from 'path';
 import { MailerModule } from './modules/mailer/mailer.module';
 import { EmailTemplateModule } from './modules/email-template/email-template.module';
 import { MessageModule } from './modules/message/message.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -32,11 +33,12 @@ import { MessageModule } from './modules/message/message.module';
     ContactFormFieldModule,
     FileModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'files'),
+      rootPath: join(__dirname, '..', 'public'),
     }),
     MailerModule,
     EmailTemplateModule,
     MessageModule,
+    AdminModule,
   ],
   providers: [GlobalModule],
 })
