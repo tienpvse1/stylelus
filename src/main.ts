@@ -10,6 +10,8 @@ async function bootstrap() {
   //set the global prefix for app. eg: http://crm.com/api/v1
   app.setGlobalPrefix(config.get<string>('app.prefix'));
 
+  // enable cross sharing origin
+  app.enableCors();
   initializeSwagger(app, config);
 
   await app.listen(config.get<number>('app.port'));
