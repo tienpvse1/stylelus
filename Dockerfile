@@ -4,5 +4,4 @@ COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 RUN npm install 
 COPY . .
 EXPOSE 8080
-RUN npm run build
-CMD ["node", "dist/main"]
+CMD ["npm", "run" ,"start:dev"]
