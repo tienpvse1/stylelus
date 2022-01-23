@@ -28,7 +28,9 @@ AdminJS.registerAdapter({ Database, Resource });
           ContactForm,
           ContactFormField,
         ],
-        branding: {},
+        branding: {
+          logo: 'https://iconape.com/wp-content/files/kr/371166/svg/371166.svg',
+        },
         assets: {
           styles: ['/style.css'],
         },
