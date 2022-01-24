@@ -18,8 +18,8 @@ import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
 import { Contact } from './entities/contact.entity';
 
-@Controller('contact')
-@ApiTags('contact')
+@Controller('contact-module')
+@ApiTags('contact module')
 @ApiBearerAuth(AUTHORIZATION)
 export class ContactController {
   constructor(private contactService: ContactService) {}

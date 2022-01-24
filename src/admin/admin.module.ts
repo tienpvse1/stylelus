@@ -1,16 +1,14 @@
-import AdminJS from 'adminjs';
-import { Module } from '@nestjs/common';
 import { AdminModule as RootAdminModule } from '@adminjs/nestjs';
 import { Database, Resource } from '@adminjs/typeorm';
+import { Module } from '@nestjs/common';
+import AdminJS from 'adminjs';
+import { Contact } from 'src/modules/contact/entities/contact.entity';
+import { Email } from 'src/modules/mailer/entities/mailer.entity';
 import { Account } from '../modules/account/entities/account.entity';
-import { Contact } from '../modules/contact-modules/contact/entities/contact.entity';
-import { ContactForm } from '../modules/contact-modules/contact-form/entities/contact-form.entity';
-import { ContactFormField } from '../modules/contact-modules/contact-form-field/entities/contact-form-field.entity';
 import { EmailTemplate } from '../modules/email-template/entities/email-template.entity';
-import { Pipeline } from '../modules/pipeline-module/pipeline/entities/pipeline.entity';
 import { PipelineColumn } from '../modules/pipeline-module/pipeline-column/entities/pipeline-column.entity';
 import { PipelineItem } from '../modules/pipeline-module/pipeline-item/entities/pipeline-item.entity';
-import { Email } from 'src/modules/mailer/entities/mailer.entity';
+import { Pipeline } from '../modules/pipeline-module/pipeline/entities/pipeline.entity';
 
 AdminJS.registerAdapter({ Database, Resource });
 
@@ -26,8 +24,6 @@ AdminJS.registerAdapter({ Database, Resource });
           Account,
           EmailTemplate,
           Contact,
-          ContactForm,
-          ContactFormField,
           Email,
         ],
         branding: {

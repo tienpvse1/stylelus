@@ -2,7 +2,7 @@ import { BaseEntity } from 'src/base/entity.base';
 import { Column, Entity, OneToOne } from 'typeorm';
 import { ContactForm } from '../../contact-form/entities/contact-form.entity';
 
-@Entity({ name: 'contact' })
+@Entity({ name: 'contact2' })
 export class Contact extends BaseEntity {
   @Column()
   name: string;
