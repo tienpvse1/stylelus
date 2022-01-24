@@ -10,6 +10,7 @@ import { EmailTemplate } from '../modules/email-template/entities/email-template
 import { Pipeline } from '../modules/pipeline-module/pipeline/entities/pipeline.entity';
 import { PipelineColumn } from '../modules/pipeline-module/pipeline-column/entities/pipeline-column.entity';
 import { PipelineItem } from '../modules/pipeline-module/pipeline-item/entities/pipeline-item.entity';
+import { Email } from 'src/modules/mailer/entities/mailer.entity';
 
 AdminJS.registerAdapter({ Database, Resource });
 
@@ -27,6 +28,7 @@ AdminJS.registerAdapter({ Database, Resource });
           Contact,
           ContactForm,
           ContactFormField,
+          Email,
         ],
         branding: {
           logo: 'https://iconape.com/wp-content/files/kr/371166/svg/371166.svg',

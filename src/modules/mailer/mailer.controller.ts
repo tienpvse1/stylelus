@@ -21,12 +21,12 @@ export class MailerController {
     @Ip() ip: string,
     @User('id') senderId: string,
   ) {
-    this.mailerService.addEmailToDB(email, ip, senderId);
     this.rootService.sendMail({
       to: email.to,
       subject: email.subject,
       html: email.value,
     });
-    return 'please check your mail';
+
+    return this.mailerService.addEmailToDB(email, ip, senderId);
   }
 }
