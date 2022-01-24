@@ -55,8 +55,8 @@ export class AccountController {
    * get account by id
    */
   @Get('custom')
-  findOne(@Body('id') filter: FindOneOptions<Account>) {
-    return this.accountService.findOne(filter);
+  findOne(@Body() filter: FindOneOptions<Account>) {
+    return this.accountService.findMany(filter);
   }
 
   /**

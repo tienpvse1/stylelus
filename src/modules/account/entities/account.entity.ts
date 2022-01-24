@@ -47,7 +47,7 @@ export class Account extends BaseEntity {
   @OneToMany(() => EmailTemplate, (emailTemplates) => emailTemplates.account)
   emailTemplates: EmailTemplate[];
 
-  @OneToOne(() => Pipeline, (pipeline) => pipeline.account, { eager: true })
+  @OneToOne(() => Pipeline, (pipeline) => pipeline.account)
   pipeline: Pipeline;
 
   @OneToMany(() => Email, (email) => email.account)
