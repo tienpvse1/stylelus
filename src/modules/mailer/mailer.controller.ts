@@ -1,12 +1,14 @@
 import { MailerService as RootService } from '@nestjs-modules/mailer';
 import { Body, Controller, Ip, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/common/decorators/user.decorator';
+import { AUTHORIZATION } from 'src/constance/swagger';
 import { CreateMailerDto } from './dto/create-mailer.dto';
 import { EmailService } from './mailer.service';
 
 @Controller('mailer')
 @ApiTags('email')
+@ApiBearerAuth(AUTHORIZATION)
 export class MailerController {
   constructor(
     private readonly mailerService: EmailService,
