@@ -4,6 +4,7 @@ import { IsEmail, Length } from 'class-validator';
 import { BaseEntity } from 'src/base/entity.base';
 import { Roles } from 'src/constance';
 import { EmailTemplate } from 'src/modules/email-template/entities/email-template.entity';
+import { Email } from 'src/modules/mailer/entities/mailer.entity';
 import { Pipeline } from 'src/modules/pipeline-module/pipeline/entities/pipeline.entity';
 import {
   BeforeInsert,
@@ -46,6 +47,12 @@ export class Account extends BaseEntity {
   @OneToMany(() => EmailTemplate, (emailTemplates) => emailTemplates.account)
   emailTemplates: EmailTemplate[];
 
+  @OneToOne(() => Pipeline, (pipeline) => pipeline.account, { eager: true })
+  pipeline: Pipeline;
+
+  @OneToMany(() => Email, (email) => email.account)
+  emails: Email[];
+
   // hash the password before save or update it in database
   @BeforeInsert()
   hashPassword() {
@@ -60,7 +67,4 @@ export class Account extends BaseEntity {
       this.password = hashSync(this.password, 10);
     }
   }
-
-  @OneToOne(() => Pipeline, (pipeline) => pipeline.account, { eager: true })
-  pipeline: Pipeline;
 }

@@ -1,26 +1,29 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CRUDService } from 'src/base/base.service';
+import { getCustomRepository } from 'typeorm';
+import { AccountRepository } from '../account/account.repository';
+import { Account } from '../account/entities/account.entity';
 import { CreateMailerDto } from './dto/create-mailer.dto';
-import { UpdateMailerDto } from './dto/update-mailer.dto';
+import { Email } from './entities/mailer.entity';
+import { EmailRepository } from './mailer.repository';
 
 @Injectable()
-export class MailerService {
-  create(createMailerDto: CreateMailerDto) {
-    return 'This action adds a new mailer';
+export class EmailService extends CRUDService<Email, EmailRepository> {
+  constructor(@InjectRepository(EmailRepository) repository: EmailRepository) {
+    super(repository);
   }
 
-  findAll() {
-    return `This action returns all mailer`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} mailer`;
-  }
-
-  update(id: number, updateMailerDto: UpdateMailerDto) {
-    return `This action updates a #${id} mailer`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} mailer`;
+  async addEmailToDB(email: CreateMailerDto, ip: string, senderId: string) {
+    const accountRepository = getCustomRepository(AccountRepository);
+    this.addWithRelation<Account>(
+      {
+        ip: ip.split(':')[3],
+        receiverEmail: email.to,
+      },
+      senderId,
+      accountRepository,
+      'emails',
+    );
   }
 }

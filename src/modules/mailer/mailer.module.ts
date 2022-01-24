@@ -1,13 +1,16 @@
 import { Module } from '@nestjs/common';
-import { MailerService } from './mailer.service';
+import { EmailService } from './mailer.service';
 import { MailerController } from './mailer.controller';
 import { MailerModule as RootMailer } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { ConfigModule } from '../config/config.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { EmailRepository } from './mailer.repository';
 @Module({
   controllers: [MailerController],
-  providers: [MailerService],
+  providers: [EmailService],
   imports: [
+    TypeOrmModule.forFeature([EmailRepository]),
     RootMailer.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
