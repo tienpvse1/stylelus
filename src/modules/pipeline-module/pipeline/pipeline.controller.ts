@@ -43,9 +43,9 @@ export class PipelineController {
     return this.pipelineService.findMany(filter);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pipelineService.findById(id);
+  @Get('/my-pipeline')
+  findOne(@User('id') id: string) {
+    return this.pipelineService.findOne({ where: { account: { id } } });
   }
 
   @Patch(':id')
