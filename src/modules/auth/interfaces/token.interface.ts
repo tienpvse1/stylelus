@@ -1,5 +1,3 @@
-import { Roles } from 'src/constance';
-
 export interface IToken {
   subject: string;
   payload: ITokenPayload;
@@ -12,5 +10,4 @@ export interface ITokenPayload {
   firstName: string;
   lastName: string;
   email: string;
-  role: Roles;
 }

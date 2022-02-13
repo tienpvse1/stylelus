@@ -2,17 +2,13 @@ import { hashSync } from 'bcryptjs';
 import { Exclude } from 'class-transformer';
 import { IsEmail, Length } from 'class-validator';
 import { BaseEntity } from 'src/base/entity.base';
-import { Roles } from 'src/constance';
-import { EmailTemplate } from 'src/modules/email-template/entities/email-template.entity';
-import { Email } from 'src/modules/mailer/entities/mailer.entity';
-import { Pipeline } from 'src/modules/pipeline-module/pipeline/entities/pipeline.entity';
+import { Session } from 'src/modules/session/entities/session.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
   Column,
   Entity,
   Index,
-  OneToMany,
   OneToOne,
 } from 'typeorm';
 @Entity()
@@ -41,17 +37,8 @@ export class Account extends BaseEntity {
   @Column({ default: false, name: 'is_social_account' })
   isSocialAccount: boolean;
 
-  @Column({ type: 'enum', enum: Roles, default: Roles.CLIENT })
-  role: Roles;
-
-  @OneToMany(() => EmailTemplate, (emailTemplates) => emailTemplates.account)
-  emailTemplates: EmailTemplate[];
-
-  @OneToOne(() => Pipeline, (pipeline) => pipeline.account)
-  pipeline: Pipeline;
-
-  @OneToMany(() => Email, (email) => email.account)
-  emails: Email[];
+  @OneToOne(() => Session, (session) => session.account)
+  session: Session;
 
   // hash the password before save or update it in database
   @BeforeInsert()
