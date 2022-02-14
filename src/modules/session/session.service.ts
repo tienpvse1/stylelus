@@ -27,10 +27,11 @@ export class SessionService extends CRUDService<Session, SessionRepository> {
     return session;
   }
 
-  async updateSession(sessionId: string, ip: string) {
+  async updateSession(sessionId: string, ip: string, socketId: string) {
     const updateResult = await this.update(sessionId, {
       ip,
       expiredAt: generateExpireDate(),
+      socketId,
     });
     return updateResult;
   }

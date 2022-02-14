@@ -11,7 +11,7 @@ async function bootstrap() {
   app.setGlobalPrefix(config.get<string>('app.prefix'));
   app.use(cookieParser());
   // enable cross sharing origin
-  app.enableCors();
+  app.enableCors({});
   initializeSwagger(app, config);
 
   await app.listen(config.get<number>('app.port'));

@@ -134,7 +134,7 @@ export class AuthService {
   }
 
   async loginUsingSession(
-    { email, password }: LoginRequestDto,
+    { email, password, socketId }: LoginRequestDto,
     ip: string,
     response: Response,
   ) {
@@ -157,6 +157,7 @@ export class AuthService {
         const session = await this.sessionService.updateSession(
           sessionFromAccountId.id,
           getIp(ip),
+          socketId,
         );
         response.cookie('sessionId', session.id, { httpOnly: true });
         return response.status(HttpStatus.OK).json({
@@ -165,6 +166,7 @@ export class AuthService {
             publicData: {
               email: account.email,
               id: account.id,
+              socketId,
             },
           },
           message: 'successfully',
@@ -175,6 +177,7 @@ export class AuthService {
       const session = await this.sessionService.create({
         account: account,
         ip: getIp(ip),
+        socketId,
       });
       // saving session to account
       account.session = session;
@@ -187,6 +190,7 @@ export class AuthService {
           publicData: {
             email: account.email,
             id: account.id,
+            socketId,
           },
         },
         message: 'successfully',

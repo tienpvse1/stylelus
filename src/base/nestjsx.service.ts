@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { DeepPartial, FindOneOptions, In, Repository } from 'typeorm';
+import {
+  DeepPartial,
+  FindManyOptions,
+  FindOneOptions,
+  In,
+  Repository,
+} from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { BaseRepository } from './base.repository';
 import { BaseEntity } from './entity.base';
@@ -96,5 +102,15 @@ export class BaseService<Entity> extends TypeOrmCrudService<Entity> {
     } catch (error) {
       throw new BadRequestException('unable to create this item');
     }
+  }
+
+  async findAll(condition?: FindManyOptions<Entity>) {
+    return this.repository.find(condition);
+  }
+
+  async findById(id: string, options?: FindOneOptions<Entity>) {
+    const item = await this.repository.findOne({ where: { id }, ...options });
+    if (!item) throw new BadRequestException('item not found');
+    return item;
   }
 }

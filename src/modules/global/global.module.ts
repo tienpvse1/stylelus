@@ -2,7 +2,7 @@ import { Module, ValidationPipe } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { HttpExceptionFilter } from 'src/common/filter/exception.filter';
 import { TransformInterceptor } from 'src/common/interceptor/response.interceptor';
-import { SessionGuard } from '../auth/guard/session.guard';
+import { JwtAuthGuard } from '../auth/guard/jwt.guard';
 
 @Module({
   providers: [
@@ -16,7 +16,7 @@ import { SessionGuard } from '../auth/guard/session.guard';
     },
     {
       provide: APP_GUARD,
-      useClass: SessionGuard,
+      useClass: JwtAuthGuard,
     },
     {
       provide: APP_PIPE,

@@ -12,6 +12,9 @@ export class Session extends BaseEntity {
   @Column({ name: 'expired_at' })
   expiredAt: Date;
 
+  @Column({ name: 'socket_id' })
+  socketId: string;
+
   @OneToOne(() => Account, (account) => account.session)
   @JoinColumn({ name: 'account_id' })
   account: Account;
